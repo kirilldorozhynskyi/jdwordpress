@@ -1,0 +1,64 @@
+{
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "embeddedLanguageFormatting": "auto",
+  "htmlWhitespaceSensitivity": "css",
+  "insertPragma": false,
+  "jsxBracketSameLine": true,
+  "jsxSingleQuote": true,
+  "printWidth": 160,
+  "proseWrap": "always",
+  "quoteProps": "as-needed",
+  "requirePragma": false,
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 4,
+  "trailingComma": "es5",
+  "useTabs": true,
+  "vueIndentScriptAndStyle": true,
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": ["*.json", "*.yml"],
+      "options": {
+        "tabWidth": 2,
+        "useTabs": false
+      }
+    },
+    {
+      "files": ["*.js", "*.vue", "*.gql"],
+      "options": {
+        "tabWidth": 2,
+        "semi": false,
+        "useTabs": true,
+        "trailingComma": "none"
+      }
+    },
+    {
+      "files": ["*.css", "*.scss"],
+      "options": {
+        "semi": true,
+        "trailingComma": "none"
+      }
+    },
+    {
+      "files": ["*.php"],
+      "options": {
+        "singleQuote": true,
+        "semi": true,
+        "phpVersion": "8.0",
+        "trailingCommaPHP": false
+      }
+    },
+    {
+      "files": "*.twig",
+      "options": {
+        "tabWidth": 4,
+        "useTabs": true,
+        "twigAlwaysBreakObjects": true,
+        "jsxBracketSameLine": false,
+        "twigPrintWidth": 110
+      }
+    }
+  ]
+}
