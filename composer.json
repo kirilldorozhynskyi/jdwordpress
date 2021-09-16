@@ -104,9 +104,6 @@
     }
   },
   "scripts": {
-    "post-autoload-dump": [
-      "@install"
-    ],
     "post-root-package-install": [
       "@install"
     ],
