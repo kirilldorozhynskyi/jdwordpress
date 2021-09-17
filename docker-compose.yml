@@ -39,7 +39,6 @@ services:
       - './:/app'
       - './dockerconfig/php.ini:/usr/local/etc/php/conf.d/uploads.ini'
       - '/_db'
-      - '/_db'
     environment:
       WEB_DOCUMENT_ROOT: /app/web
     restart: always
