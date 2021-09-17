@@ -104,11 +104,13 @@
     }
   },
   "scripts": {
-    "post-root-package-install": [
+    "post-create-project-cmd": [
       "@install"
     ],
     "install": [
-      "Roots\\Installer::addSalts"
+      "Roots\\Installer::addEnv",
+      "Roots\\Installer::addSalts",
+      "git init"
     ]
   }
 }
