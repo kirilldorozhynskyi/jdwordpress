@@ -58,6 +58,22 @@
           "composer/installers": "^1.2.0"
         }
       }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "advanced-custom-fields/advanced-custom-fields-pro",
+        "version": "5.10.2",
+        "type": "wordpress-plugin",
+        "dist": {
+          "type": "zip",
+          "url": "https://connect.advancedcustomfields.com/index.php?p=pro&a=download"
+        },
+        "require": {
+          "philippbaschke/acf-pro-installer": "^1.0",
+          "composer/installers": "^1.0"
+        }
+      }
     }
   ],
   "require": {
@@ -65,14 +81,20 @@
     "composer/installers": "^1.11",
     "vlucas/phpdotenv": "^5.3",
     "oscarotero/env": "^2.1",
+    "timber/timber": "^1.19",
     "roots/bedrock-autoloader": "^1.0",
     "roots/bedrock-disallow-indexing": "^2.0",
-    "roots/wordpress": "^5.8.1",
+    "roots/wordpress": "^5.8",
     "roots/wp-config": "^1.0.0",
     "roots/wp-password-bcrypt": "^1.0.0",
     "roots/wp-stage-switcher": "^2.1",
     "jdlocal/wp-sync-db": "1.6",
-    "jdlocal/wp-sync-db-media-files": "^1.1.0"
+    "jdlocal/wp-sync-db-media-files": "^1.1.0",
+    "advanced-custom-fields/advanced-custom-fields-pro": "*",
+    "pivvenit/acf-pro-installer": "^3.0",
+    "upperdog/clean-image-filenames": "^1.3",
+    "yoast/duplicate-post": "^4.1",
+    "yoast/wordpress-seo": "^17.1"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.6.0",
