@@ -9,6 +9,17 @@ class Installer
 {
 	public static $KEYS = ['AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT'];
 
+	public static function addTest(Event $event)
+	{
+		$root = dirname(dirname(__DIR__));
+		$composer = $event->getComposer();
+		$io = $event->getIO();
+
+		$folder_name = basename(dirname(dirname(__DIR__)));
+
+		$char = ['.', ' '];
+		$project_name = str_replace($char, '', $folder_name);
+	}
 	public static function addEnv(Event $event)
 	{
 		$root = dirname(dirname(__DIR__));
@@ -19,6 +30,29 @@ class Installer
 
 		$char = ['.', ' '];
 		$project_name = str_replace($char, '', $folder_name);
+
+		// NOTE: DDEV config
+		$ddevconfig = "{$root}/.ddev/config.yaml";
+		if (file_exists($ddevconfig)) {
+			$NAME = "name: {$project_name}\n";
+
+			$STANDART = file_get_contents($ddevconfig);
+
+			$ddevconfig_content = $NAME . $STANDART;
+
+			file_put_contents($ddevconfig, $ddevconfig_content);
+		}
+
+		// NOTE: vscode workspace config
+		$workspace_file = "{$root}/wordpress_development.code-workspace";
+		if (file_exists($workspace_file)) {
+			$workspace = file_get_contents($workspace_file);
+
+			$newworkspace = str_replace('_juststart', $project_name, $workspace);
+
+			file_put_contents($workspace_file, $newworkspace);
+			rename($workspace_file, "{$project_name}.code-workspace");
+		}
 
 		// NOTE: .env config
 		$generate_env = $io->askConfirmation('<info>Generate .env file?</info> [<comment>Y,n</comment>]? ', true);
@@ -90,16 +124,6 @@ class Installer
 
 		$env_file = "{$root}/.env";
 		file_put_contents($env_file, $env_content);
-
-		// NOTE: DDEV config
-		$ddevconfig = "{$root}/.ddev/config.yaml";
-		$NAME = "name: {$project_name}\n";
-
-		$STANDART = file_get_contents($ddevconfig);
-
-		$ddevconfig_content = $NAME . $STANDART;
-
-		file_put_contents($ddevconfig, $ddevconfig_content);
 	}
 
 	public static function addSalts(Event $event)

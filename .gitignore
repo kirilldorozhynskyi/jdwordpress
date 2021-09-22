@@ -51,7 +51,3 @@ TEST*.xml
 *.flv
 *.mov
 *.wmv
-
-# VS Code
-*.code-workspace
-

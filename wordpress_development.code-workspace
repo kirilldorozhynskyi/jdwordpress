@@ -1,0 +1,38 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"psi-header.changes-tracking": {
+			"isActive": false
+		},
+		"psi-header.variables": [
+			["projectname", "_juststart"],
+			["projectversion", "1.0.0"]
+		],
+		"npm.exclude": "**/plugins/**",
+		"files.exclude": {
+			"composer.lock": true,
+			"LICENSE.md": true,
+			"phpcs.xml": true,
+			"wp-cli.yml": true,
+			"CHANGELOG.md": true,
+			"vendor/": true,
+			"config/": true,
+			"scripts/": true,
+			"**/wp": true,
+			"web/wp-config.php": true,
+			"web/index.php": true,
+			"web/.htaccess": true,
+			"web/app/uploads": true,
+			".ddev": true,
+			"**/.gitkeep": true,
+			"**/.editorconfig": true,
+			"**/.prettierrc.json": true,
+			"**/.env.example": true,
+			"**/.gitignore": true
+		}
+	}
+}
