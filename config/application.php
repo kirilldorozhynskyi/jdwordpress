@@ -74,6 +74,7 @@ $WP_SITEURL = $WP_HOME . '/wp';
 
 Config::define('WP_HOME', $WP_HOME);
 Config::define('WP_SITEURL', $WP_SITEURL);
+Config::define('WEB_ROOT', $root_dir);
 
 /**
  * Custom Content Directory
