@@ -3,78 +3,124 @@
 namespace Roots;
 
 use Composer\Script\Event;
+use Composer\Installer\PackageEvent;
 
 class Installer
 {
 	public static $KEYS = ['AUTH_KEY', 'SECURE_AUTH_KEY', 'LOGGED_IN_KEY', 'NONCE_KEY', 'AUTH_SALT', 'SECURE_AUTH_SALT', 'LOGGED_IN_SALT', 'NONCE_SALT'];
 
+	public static function addTest(Event $event)
+	{
+		$root = dirname(dirname(__DIR__));
+		$composer = $event->getComposer();
+		$io = $event->getIO();
+
+		$folder_name = basename(dirname(dirname(__DIR__)));
+
+		$char = ['.', ' '];
+		$project_name = str_replace($char, '', $folder_name);
+	}
 	public static function addEnv(Event $event)
 	{
 		$root = dirname(dirname(__DIR__));
 		$composer = $event->getComposer();
 		$io = $event->getIO();
-		$generate_salts = $io->askConfirmation('<info>Generate .env file?</info> [<comment>Y,n</comment>]? ', true);
 
-		if (!$generate_salts) {
+		$folder_name = basename(dirname(dirname(__DIR__)));
+
+		$char = ['.', ' '];
+		$project_name = str_replace($char, '', $folder_name);
+
+		// NOTE: DDEV config
+		$ddevconfig = "{$root}/.ddev/config.yaml";
+		if (file_exists($ddevconfig)) {
+			$NAME = "name: {$project_name}\n";
+
+			$STANDART = file_get_contents($ddevconfig);
+
+			$ddevconfig_content = $NAME . $STANDART;
+
+			file_put_contents($ddevconfig, $ddevconfig_content);
+		}
+
+		// NOTE: vscode workspace config
+		$workspace_file = "{$root}/wordpress_development.code-workspace";
+		if (file_exists($workspace_file)) {
+			$workspace = file_get_contents($workspace_file);
+
+			$newworkspace = str_replace('_juststart', $project_name, $workspace);
+
+			file_put_contents($workspace_file, $newworkspace);
+			rename($workspace_file, "{$project_name}.code-workspace");
+		}
+
+		// NOTE: .env config
+		$generate_env = $io->askConfirmation('<info>Generate .env file?</info> [<comment>Y,n</comment>]? ', true);
+
+		if (!$generate_env) {
 			return 1;
 		}
 
-		$APP_NAME_ask = $io->ask('<info>Write youre [<comment>APP_NAME</comment>]</info> ');
-		if ($APP_NAME_ask) {
-			$APP_NAME = "APP_NAME='{$APP_NAME_ask}'\n";
+		$DB_NAME_ask = $io->ask('<info>Write youre [<comment>DB_NAME</comment>] (empty: db)</info> ');
+		if ($DB_NAME_ask) {
+			$DB_NAME = "DB_NAME='{$DB_NAME_ask}'\n";
+		} else {
+			$DB_NAME = "DB_NAME='db'\n";
 		}
 
-		$PHPMYADMIN_PORT_ask = $io->ask('<info>Write youre [<comment>PHPMYADMIN_PORT</comment>]</info> ');
-		if ($PHPMYADMIN_PORT_ask) {
-			$PHPMYADMIN_PORT = "PHPMYADMIN_PORT={$PHPMYADMIN_PORT_ask}\n";
+		$DB_USER_ask = $io->ask('<info>Write youre [<comment>DB_USER</comment>] (empty: db)</info> ');
+		if ($DB_USER_ask) {
+			$DB_USER = "DB_USER='{$DB_USER_ask}'\n";
+		} else {
+			$DB_USER = "DB_USER='db'\n";
 		}
 
-		$BACKEND_PORT_ask = $io->ask('<info>Write youre [<comment>BACKEND_PORT</comment>]</info> ');
-		if ($BACKEND_PORT_ask) {
-			$BACKEND_PORT = "BACKEND_PORT={$BACKEND_PORT_ask}\n";
+		$DB_PASSWORD_ask = $io->ask('<info>Write youre [<comment>DB_PASSWORD</comment>] (empty: db)</info> ');
+		if ($DB_PASSWORD_ask) {
+			$DB_PASSWORD = "DB_PASSWORD='{$DB_PASSWORD_ask}'\n";
+		} else {
+			$DB_PASSWORD = "DB_PASSWORD='db'\n";
 		}
 
-		$DB_NAME = "DB_NAME='{$APP_NAME_ask}'\n";
-
-		$DB_USER = "DB_USER=root\n";
-		$DB_PASSWORD = "DB_PASSWORD=dev\n";
-		$DB_HOST = "DB_HOST=${APP_NAME_ask}.mariadb:3306\n";
-
-		$DB_PORT_ask = $io->ask('<info>Write youre [<comment>DB_PORT</comment>]</info> ');
-		if ($DB_PORT_ask) {
-			$DB_PORT = "DB_PORT={$DB_PORT_ask}\n";
+		$DB_HOST_ask = $io->ask('<info>Write youre [<comment>DB_HOST</comment>] (empty: db)</info> ');
+		if ($DB_HOST_ask) {
+			$DB_HOST = "DB_HOST='{$DB_HOST_ask}'\n";
+		} else {
+			$DB_HOST = "DB_HOST='db'\n";
 		}
 
-		$WP_ENV_ask = $io->ask('<info>Write youre [<comment>WP_ENV: development/staging/production</comment>]</info> ');
+		$WP_ENV_ask = $io->ask('<info>Write youre [<comment>WP_ENV: development / staging / production</comment>]</info> ');
 		if ($WP_ENV_ask) {
 			$WP_ENV = "WP_ENV='{$WP_ENV_ask}'\n";
+		} else {
+			$WP_ENV = "WP_ENV='development'\n";
 		}
 
-		$ENV_DEVELOPMENT = "ENV_DEVELOPMENT='http://localhost:${BACKEND_PORT_ask}'\n";
+		$ENV_DEVELOPMENT = "ENV_DEVELOPMENT='https://${project_name}.ddev.site'\n";
 
 		$ENV_STAGING_ask = $io->ask('<info>Write youre [<comment>ENV_STAGING</comment>]</info> ');
 		if ($ENV_STAGING_ask) {
-			$ENV_STAGING = "ENV_STAGING='{$ENV_STAGING_ask}'\n";
+			if (strpos($ENV_STAGING_ask, 'http://') && strpos($ENV_STAGING_ask, 'https://')) {
+				$ENV_STAGING = "ENV_STAGING='{$ENV_STAGING_ask}'\n";
+			} else {
+				$ENV_STAGING = "ENV_STAGING='https://{$ENV_STAGING_ask}'\n";
+			}
+		} else {
+			$ENV_STAGING = "ENV_STAGING='#'\n";
 		}
 
 		$ENV_PRODUCTION_ask = $io->ask('<info>Write youre [<comment>ENV_PRODUCTION</comment>]</info> ');
 		if ($ENV_PRODUCTION_ask) {
-			$ENV_PRODUCTION = "ENV_PRODUCTION='{$ENV_PRODUCTION_ask}'\n";
+			if (strpos($ENV_PRODUCTION_ask, 'http://') && strpos($ENV_PRODUCTION_ask, 'https://')) {
+				$ENV_PRODUCTION = "ENV_PRODUCTION='{$ENV_PRODUCTION_ask}'\n";
+			} else {
+				$ENV_PRODUCTION = "ENV_PRODUCTION='https://{$ENV_PRODUCTION_ask}'\n";
+			}
+		} else {
+			$ENV_PRODUCTION = "ENV_PRODUCTION='#'\n";
 		}
 
-		$env_content =
-			$APP_NAME .
-			$PHPMYADMIN_PORT .
-			$BACKEND_PORT .
-			$DB_NAME .
-			$DB_USER .
-			$DB_PASSWORD .
-			$DB_HOST .
-			$DB_PORT .
-			$WP_ENV .
-			$ENV_DEVELOPMENT .
-			$ENV_STAGING .
-			$ENV_PRODUCTION;
+		$env_content = $DB_NAME . $DB_USER . $DB_PASSWORD . $DB_HOST . $WP_ENV . $ENV_DEVELOPMENT . $ENV_STAGING . $ENV_PRODUCTION;
 
 		$env_file = "{$root}/.env";
 		file_put_contents($env_file, $env_content);
