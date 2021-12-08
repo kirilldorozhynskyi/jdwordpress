@@ -149,10 +149,10 @@ class Installer
 		$env_file = "{$root}/.env";
 
 		if (file_exists($env_file)) {
-			file_put_contents($env_file, implode($salts, "\n"), FILE_APPEND | LOCK_EX);
+			file_put_contents($env_file, implode("\n", $salts), FILE_APPEND | LOCK_EX);
 		} else {
 			if (copy("{$root}/.env.example", $env_file)) {
-				file_put_contents($env_file, implode($salts, "\n"), FILE_APPEND | LOCK_EX);
+				file_put_contents($env_file, implode("\n", $salts), FILE_APPEND | LOCK_EX);
 			} else {
 				$io->write('<error>An error occured while copying your .env file</error>');
 				return 1;
