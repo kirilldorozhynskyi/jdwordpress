@@ -74,7 +74,6 @@ $WP_SITEURL = $WP_HOME . '/wp';
 
 Config::define('WP_HOME', $WP_HOME);
 Config::define('WP_SITEURL', $WP_SITEURL);
-Config::define('WEB_ROOT', $root_dir);
 
 /**
  * Custom Content Directory
@@ -82,6 +81,7 @@ Config::define('WEB_ROOT', $root_dir);
 Config::define('CONTENT_DIR', '/app');
 Config::define('WP_CONTENT_DIR', $webroot_dir . Config::get('CONTENT_DIR'));
 Config::define('WP_CONTENT_URL', Config::get('WP_HOME') . Config::get('CONTENT_DIR'));
+Config::define('WEB_ROOT', $root_dir);
 
 /**
  * DB settings

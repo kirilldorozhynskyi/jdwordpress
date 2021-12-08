@@ -21,8 +21,7 @@
     {
       "files": ["*.json", "*.yml"],
       "options": {
-        "tabWidth": 2,
-        "useTabs": false
+        "tabWidth": 2
       }
     },
     {
@@ -30,7 +29,7 @@
       "options": {
         "tabWidth": 2,
         "semi": false,
-        "useTabs": true,
+        "vueIndentScriptAndStyle": false,
         "trailingComma": "none"
       }
     },
@@ -54,7 +53,6 @@
       "files": "*.twig",
       "options": {
         "tabWidth": 4,
-        "useTabs": true,
         "twigAlwaysBreakObjects": true,
         "jsxBracketSameLine": false,
         "twigPrintWidth": 110
