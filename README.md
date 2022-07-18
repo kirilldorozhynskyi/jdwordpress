@@ -19,8 +19,11 @@ $COMPOSER_HOME is a hidden, global (per-user on the machine) directory that is s
 composer create-project justdev/jdwordpress "name of project"
 
 DDEV server - for local host server 
+
 requirement installed
+
 Docker
+
 In project folder
 ```
 ddev start 
