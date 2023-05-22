@@ -27,7 +27,7 @@
 			"web/index.php": true,
 			"web/.htaccess": true,
 			"web/app/uploads": true,
-			".ddev": true,
+			".ddev": false,
 			"**/.gitkeep": true,
 			"**/.editorconfig": true,
 			"**/.prettierrc.json": true,

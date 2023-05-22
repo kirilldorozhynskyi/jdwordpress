@@ -28,3 +28,7 @@ In project folder
 ```
 ddev start 
 ```
+
+```
+composer run-script install
+```

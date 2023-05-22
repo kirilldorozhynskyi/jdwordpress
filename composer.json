@@ -60,20 +60,8 @@
 			}
 		},
 		{
-			"type": "package",
-			"package": {
-				"name": "advanced-custom-fields/advanced-custom-fields-pro",
-				"version": "6.0.7",
-				"type": "wordpress-plugin",
-				"dist": {
-					"type": "zip",
-					"url": "https://connect.advancedcustomfields.com/index.php?p=pro&a=download"
-				},
-				"require": {
-					"pivvenit/acf-pro-installer": "^3.0",
-					"composer/installers": "^2.0"
-				}
-			}
+			"type": "composer",
+			"url": "https://connect.advancedcustomfields.com"
 		}
 	],
 	"require": {
@@ -86,14 +74,14 @@
 		"roots/wordpress": "6.2",
 		"roots/wp-config": "1.0.0",
 		"roots/wp-password-bcrypt": "1.1.0",
-		"timber/timber": "^1.22.1",
+		"timber/timber": "^1.22",
 		"roots/wp-stage-switcher": "^2.1",
 		"jdlocal/wp-sync-db": "1.6",
 		"jdlocal/wp-sync-db-media-files": "^1.1.0",
-		"advanced-custom-fields/advanced-custom-fields-pro": "*",
-		"pivvenit/acf-pro-installer": "^3.0",
+		"wpengine/advanced-custom-fields-pro": "*",
 		"wpackagist-plugin/duplicate-post": "^4.5",
-		"yoast/wordpress-seo": "^20.4"
+		"yoast/wordpress-seo": "^20.4",
+		"wpackagist-plugin/wp-mail-smtp": "^3.7.0"
 	},
 	"require-dev": {
 		"squizlabs/php_codesniffer": "^3.7.1",

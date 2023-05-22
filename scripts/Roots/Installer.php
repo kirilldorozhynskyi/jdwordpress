@@ -97,6 +97,7 @@ class Installer
 		}
 
 		$ENV_DEVELOPMENT = "ENV_DEVELOPMENT='https://${project_name}.ddev.site'\n";
+		$APP_URL = "APP_URL='https://${project_name}.ddev.site'\n";
 
 		$ENV_STAGING_ask = $io->ask('<info>Write youre [<comment>ENV_STAGING</comment>]</info> ');
 		if ($ENV_STAGING_ask) {
@@ -120,7 +121,7 @@ class Installer
 			$ENV_PRODUCTION = "ENV_PRODUCTION='#'\n";
 		}
 
-		$env_content = $DB_NAME . $DB_USER . $DB_PASSWORD . $DB_HOST . $WP_ENV . $ENV_DEVELOPMENT . $ENV_STAGING . $ENV_PRODUCTION;
+		$env_content = $DB_NAME . $DB_USER . $DB_PASSWORD . $DB_HOST . $WP_ENV . $ENV_DEVELOPMENT . $APP_URL . $ENV_STAGING . $ENV_PRODUCTION;
 
 		$env_file = "{$root}/.env";
 		file_put_contents($env_file, $env_content);
@@ -143,7 +144,8 @@ class Installer
 		}
 
 		$salts = array_map(function ($key) {
-			return sprintf("%s='%s'", $key, Installer::generateSalt());
+			$salt = str_replace("$", 'black', Installer::generateSalt());
+			return sprintf("%s='%s'", $key, $salt);
 		}, self::$KEYS);
 
 		$env_file = "{$root}/.env";
